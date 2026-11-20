@@ -1,0 +1,133 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+      color: #0b1e46;
+    }
+    .s3-big {
+      position: absolute;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .s3-big span { display: inline-block; }
+    #s3-info { left: 120px; top: 380px; font-size: 212px; }
+    #s3-results { left: 120px; top: 330px; font-size: 330px; color: #0e7bb5; }
+    .s3-panel {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    #s3-results { opacity: 0; }
+    #s3-p1 { background: #eaf6fd; }
+    #s3-p2 { background: #1aa6ec; }
+    #s3-p3 { background: #0e7bb5; color: #ffffff; }
+    #s3-page { position: absolute; left: 200px; top: 150px; width: 400px; height: 520px; }
+    #s3-report { left: 720px; top: 300px; font-size: 300px; }
+    #s3-grid { position: absolute; left: 1330px; top: 90px; width: 440px; height: 400px; }
+    #s3-sheet { left: 120px; top: 600px; font-size: 212px; }
+    #s3-slide { position: absolute; left: 1240px; top: 130px; width: 560px; height: 390px; }
+    #s3-deck { left: 140px; top: 260px; font-size: 340px; color: #ffffff; }
+    #s3-noise {
+      position: absolute;
+      left: 140px;
+      top: 700px;
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+    #s3-noise span { display: inline-block; margin-right: 0.25em; }
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1920" data-height="1080">
+    <div class="s3-big" id="s3-info" data-layout-allow-overflow><span>I</span><span>N</span><span>F</span><span>O</span><span>R</span><span>M</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span></div>
+    <div class="s3-big" id="s3-results" data-layout-allow-overflow><span>R</span><span>E</span><span>S</span><span>U</span><span>L</span><span>T</span><span>S</span></div>
+
+    <div class="s3-panel" id="s3-p1">
+      <svg id="s3-page" viewBox="0 0 400 520" fill="none" stroke="#0b1e46" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path class="s3-draw" pathLength="100" d="M20 20 H270 L380 130 V500 H20 Z" />
+        <path class="s3-draw" pathLength="100" d="M270 20 V130 H380" />
+        <line class="s3-draw" pathLength="100" x1="80" y1="220" x2="320" y2="220" />
+        <line class="s3-draw" pathLength="100" x1="80" y1="300" x2="320" y2="300" />
+        <line class="s3-draw" pathLength="100" x1="80" y1="380" x2="250" y2="380" />
+      </svg>
+      <div class="s3-big" id="s3-report">Report</div>
+    </div>
+
+    <div class="s3-panel" id="s3-p2">
+      <svg id="s3-grid" viewBox="0 0 440 400" fill="none" stroke="#0b1e46" stroke-width="14" stroke-linejoin="round">
+        <rect x="10" y="10" width="420" height="380" rx="24" />
+        <rect class="s3-cell" x="10" y="10" width="420" height="95" fill="#0b1e46" />
+        <line x1="150" y1="10" x2="150" y2="390" />
+        <line x1="290" y1="10" x2="290" y2="390" />
+        <line x1="10" y1="200" x2="430" y2="200" />
+        <line x1="10" y1="295" x2="430" y2="295" />
+      </svg>
+      <div class="s3-big" id="s3-sheet">Spreadsheet</div>
+    </div>
+
+    <div class="s3-panel" id="s3-p3">
+      <svg id="s3-slide" viewBox="0 0 620 430" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="10" y="10" width="600" height="360" rx="24" />
+        <line x1="310" y1="370" x2="310" y2="420" />
+        <rect class="s3-bar" x="110" y="230" width="80" height="100" fill="#ffffff" />
+        <rect class="s3-bar" x="270" y="160" width="80" height="170" fill="#ffffff" />
+        <rect class="s3-bar" x="430" y="90" width="80" height="240" fill="#ffffff" />
+      </svg>
+      <div class="s3-big" id="s3-deck">Deck</div>
+      <div id="s3-noise"><span>From</span><span>noise</span><span>to</span><span>finished</span><span>work</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // INFORMATION lands on its word.
+    tl.fromTo("#s3-info", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.05);
+
+    // ...becomes RESULTS: the letters scatter (fixed offsets, no randomness) and new letters fly in.
+    const scatter = [[-180, -260, -40], [120, 240, 30], [-60, -320, 55], [220, 180, -25], [-240, 120, 40], [80, -280, -60], [260, -140, 20], [-120, 300, -35], [180, -220, 50], [-200, -120, -20], [140, 260, 35]];
+    tl.set("#s3-results", { opacity: 1 }, 0.95);
+    gsap.utils.toArray("#s3-info span").forEach((el, i) => {
+      const [x, y, r] = scatter[i];
+      tl.to(el, { x, y, rotation: r, opacity: 0, filter: "blur(8px)", duration: 0.32, ease: "power3.in" }, 0.9 + i * 0.012);
+    });
+    gsap.utils.toArray("#s3-results span").forEach((el, i) => {
+      const [x, y, r] = scatter[(i + 3) % scatter.length];
+      tl.fromTo(el, { x: -x, y: -y, rotation: -r, opacity: 0 }, { x: 0, y: 0, rotation: 0, opacity: 1, duration: 0.42, ease: "expo.out" }, 1.0 + i * 0.033);
+    });
+
+    // Hard cuts, one object per spoken word. Each panel comes in slightly large and settles.
+    const cut = (panel, t, prev) => {
+      tl.set(panel, { opacity: 1 }, t);
+      tl.set(prev, { opacity: 0 }, t); // the shot it cuts from is gone, not hidden under it
+      tl.fromTo(panel, { scale: 1.06 }, { scale: 1, duration: 0.35, ease: "expo.out" }, t);
+    };
+
+    // REPORT: the page draws itself.
+    cut("#s3-p1", 2.0, ["#s3-info", "#s3-results"]);
+    tl.fromTo("#s3-p1 .s3-draw", { strokeDasharray: "100 120", strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.4, stagger: 0.06, ease: "power3.out" }, 2.0);
+    tl.fromTo("#s3-report", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 2.04);
+
+    // SPREADSHEET: the grid snaps in, header row fills.
+    cut("#s3-p2", 2.64, "#s3-p1");
+    tl.fromTo("#s3-grid", { scale: 0.6, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.6)" }, 2.64);
+    tl.fromTo("#s3-p2 .s3-cell", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.3, ease: "expo.out" }, 2.8);
+    tl.fromTo("#s3-sheet", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 2.66);
+
+    // DECK: the chart bars grow, then the line that sums it up.
+    cut("#s3-p3", 3.6, "#s3-p2");
+    tl.fromTo("#s3-deck", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.62);
+    tl.fromTo("#s3-p3 .s3-bar", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.45, stagger: 0.1, ease: "expo.out" }, 3.75);
+    tl.fromTo("#s3-noise span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.08, ease: "power4.out" }, 4.6);
+
+    window.__timelines["s3"] = tl;
+  </script>
+</template>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #ffffff; }
+      #root { position: relative; width: 100%; height: 100%; font-family: "Poppins", sans-serif; color: #0b1e46; overflow: hidden; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .bg { position: absolute; inset: 0; }
+      .big { position: absolute; font-weight: 700; letter-spacing: -0.03em; text-transform: uppercase; white-space: nowrap; line-height: 0.9; }
+      .quiet { position: absolute; font-weight: 700; font-size: 60px; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+      .claude { color: #d97757; }
+      .slot { position: absolute; overflow: hidden; }
+      .reel { position: absolute; left: 0; top: 0; }
+      .reel > div { font-weight: 700; letter-spacing: -0.03em; text-transform: uppercase; white-space: nowrap; }
+
+      /* A · you and Claude */
+      #a-fow { left: 124px; top: 110px; }
+      #a-you { left: 120px; top: 250px; font-size: 300px; }
+      #a-slot { left: 760px; top: 300px; width: 560px; height: 230px; }
+      #a-slot .reel > div { height: 230px; line-height: 230px; font-size: 200px; color: #0e7bb5; }
+      #a-claude { left: 120px; top: 560px; font-size: 300px; }
+
+      /* B · drafts / review / decide (hard cuts) */
+      .panel { position: absolute; inset: 0; opacity: 0; }
+      .who { position: absolute; left: 124px; top: 230px; font-weight: 700; font-size: 90px; letter-spacing: -0.02em; text-transform: uppercase; }
+      .verb { position: absolute; left: 120px; top: 360px; font-weight: 700; font-size: 300px; letter-spacing: -0.03em; text-transform: uppercase; line-height: 0.9; white-space: nowrap; }
+      .icon { position: absolute; left: 1320px; top: 250px; width: 440px; height: 440px; }
+
+      /* C · what's next */
+      #c-next { left: 120px; top: 250px; font-size: 220px; }
+      #c-more { left: 124px; top: 520px; }
+      #c-slot { left: 120px; top: 600px; width: 1700px; height: 230px; }
+      #c-slot .reel > div { height: 230px; line-height: 230px; font-size: 200px; color: #0e7bb5; }
+      #c-track { position: absolute; left: 120px; top: 850px; width: 1680px; height: 16px; border-radius: 8px; background: #0b1e46; }
+
+      /* D · the question */
+      #d-l1 { left: 120px; top: 180px; font-size: 170px; }
+      #d-l1 span { display: inline-block; margin-right: 0.22em; }
+      #d-l2 { left: 120px; top: 380px; font-size: 230px; color: #0e7bb5; }
+      #d-l3 { left: 120px; top: 610px; font-size: 230px; }
+
+      /* E · end card on sky */
+      #e-title { left: 120px; top: 200px; font-size: 170px; }
+      #e-title span { display: block; }
+      #e-sub { position: absolute; left: 124px; top: 600px; font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 52px; white-space: nowrap; }
+      #e-plate { position: absolute; left: 120px; top: 720px; width: 560px; height: 140px; border-radius: 28px; background: #ffffff; }
+      #e-plate img { position: absolute; left: 50px; top: 30px; height: 80px; width: auto; }
+    </style>
+  </head>
+  <body>
+    <!-- Doc 5 · The Future Is Collaborative. Voice is the clock; see ../SPEC.md. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34" data-width="1920" data-height="1080">
+
+      <div id="sa" class="clip scene" data-start="0" data-duration="6.7" data-track-index="1" style="z-index: 1">
+        <div class="bg" style="background: #ffffff"></div>
+        <div class="quiet" id="a-fow">The future of work</div>
+        <div class="big" id="a-you">You</div>
+        <div class="slot" id="a-slot" data-layout-allow-overflow><div class="reel" id="a-reel"><div>or</div><div>and</div></div></div>
+        <div class="big claude" id="a-claude">Claude</div>
+      </div>
+
+      <div id="sb" class="clip scene" data-start="6.6" data-duration="6.0" data-track-index="2" style="z-index: 2">
+        <div class="bg" style="background: #ffffff"></div>
+        <div class="panel" id="b-p1" style="background: #ffffff">
+          <div class="who claude">Claude</div>
+          <div class="verb">Drafts</div>
+          <svg class="icon" viewBox="0 0 440 440" fill="none" stroke="#0b1e46" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+            <path class="b-draw" pathLength="100" d="M300 60 L380 140 L160 360 L60 380 L80 280 Z" /><line class="b-draw" pathLength="100" x1="260" y1="100" x2="340" y2="180" />
+          </svg>
+        </div>
+        <div class="panel" id="b-p2" style="background: #1aa6ec">
+          <div class="who">You</div>
+          <div class="verb">Review</div>
+          <svg class="icon" viewBox="0 0 440 440" fill="none" stroke="#0b1e46" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+            <path class="b-draw" pathLength="100" d="M30 220 C100 110 160 80 220 80 C280 80 340 110 410 220 C340 330 280 360 220 360 C160 360 100 330 30 220 Z" /><circle class="b-draw" pathLength="100" cx="220" cy="220" r="70" />
+          </svg>
+        </div>
+        <div class="panel" id="b-p3" style="background: #0e7bb5; color: #ffffff">
+          <div class="who">You</div>
+          <div class="verb">Decide</div>
+          <svg class="icon" viewBox="0 0 440 440" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="b-draw" pathLength="100" cx="220" cy="220" r="190" /><polyline class="b-draw" pathLength="100" points="120,230 190,300 320,150" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="sc" class="clip scene" data-start="12.4" data-duration="8.8" data-track-index="1" style="z-index: 3">
+        <div class="bg" id="c-bg" style="background: #eaf6fd"></div>
+        <div class="big" id="c-next">What's next</div>
+        <div class="quiet" id="c-more">New tools for</div>
+        <div class="slot" id="c-slot" data-layout-allow-overflow><div class="reel" id="c-reel"><div>Meetings</div><div>Whiteboards</div><div>Agents</div></div></div>
+        <div id="c-track"></div>
+      </div>
+
+      <div id="sd" class="clip scene" data-start="20.8" data-duration="4.8" data-track-index="2" style="z-index: 4">
+        <div class="bg" id="d-bg" style="background: #ffffff"></div>
+        <div class="big" id="d-l1"><span>What</span><span>will</span><span>you</span></div>
+        <div class="big" id="d-l2">Hand off</div>
+        <div class="big" id="d-l3">First?</div>
+      </div>
+
+      <div id="se" class="clip scene" data-start="25.4" data-duration="8.6" data-track-index="1" style="z-index: 5">
+        <div class="bg" id="e-bg" style="background: #1aa6ec"></div>
+        <div class="big" id="e-title" data-hold><span>The future is</span><span>collaborative</span></div>
+        <div id="e-sub" data-hold>Part 7 · The Future of Work</div>
+        <div id="e-plate" data-hold data-layout-allow-overflow><img src="assets/cloudswyft-logo-on-light.png" alt="CloudSwyft" /></div>
+      </div>
+
+      <audio id="voice" class="clip" src="assets/doc5.mp3" data-start="0" data-duration="23.68" data-track-index="5" data-volume="1"></audio>
+      <audio id="pop1" class="clip" src="assets/sfx-pop.mp3" data-start="3.36" data-duration="0.3" data-track-index="6" data-volume="0.7"></audio>
+      <audio id="pop2" class="clip" src="assets/sfx-pop.mp3" data-start="15.91" data-duration="0.3" data-track-index="6" data-volume="0.5"></audio>
+      <audio id="pop3" class="clip" src="assets/sfx-pop.mp3" data-start="17.51" data-duration="0.3" data-track-index="6" data-volume="0.55"></audio>
+      <audio id="wh1" class="clip" src="assets/sfx-whoosh.mp3" data-start="6.45" data-duration="1.0" data-track-index="7" data-volume="0.22" data-fade-out="0.3"></audio>
+      <audio id="wh2" class="clip" src="assets/sfx-whoosh.mp3" data-start="7.45" data-duration="1.0" data-track-index="7" data-volume="0.24" data-fade-out="0.3"></audio>
+      <audio id="wh3" class="clip" src="assets/sfx-whoosh.mp3" data-start="8.45" data-duration="1.0" data-track-index="7" data-volume="0.26" data-fade-out="0.3"></audio>
+      <audio id="wh4" class="clip" src="assets/sfx-whoosh.mp3" data-start="11.85" data-duration="1.2" data-track-index="7" data-volume="0.24" data-fade-out="0.4"></audio>
+      <audio id="wh5" class="clip" src="assets/sfx-whoosh.mp3" data-start="20.25" data-duration="1.2" data-track-index="7" data-volume="0.24" data-fade-out="0.4"></audio>
+      <audio id="wh6" class="clip" src="assets/sfx-whoosh.mp3" data-start="24.85" data-duration="1.4" data-track-index="7" data-volume="0.28" data-fade-out="0.5"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const land = (sel, t, blur = 10) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(" + blur + "px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, t);
+
+      // A · "The future of work isn't you or Claude. It's you and Claude."
+      land("#a-you", 1.7);
+      land("#a-slot", 2.0);
+      land("#a-claude", 2.3);
+      tl.fromTo("#a-reel", { y: 0 }, { y: -230, duration: 0.3, ease: "power3.out" }, 3.4);
+      tl.set("#a-reel > div:nth-child(1)", { opacity: 0 }, 3.7);
+
+      // B · hard cuts on "drafts", "review", "decide"; each icon draws itself.
+      const cut = (panel, prev, t) => {
+        tl.set(panel, { opacity: 1 }, t);
+        if (prev) tl.set(prev, { opacity: 0 }, t);
+        tl.fromTo(panel, { scale: 1.06 }, { scale: 1, duration: 0.35, ease: "expo.out" }, t);
+        tl.fromTo(panel + " .b-draw", { strokeDasharray: "100 120", strokeDashoffset: 110 }, { strokeDashoffset: 0, duration: 0.45, stagger: 0.08, ease: "power3.out" }, t + 0.05);
+      };
+      cut("#b-p1", null, 7.2);
+      cut("#b-p2", "#b-p1", 8.2);
+      cut("#b-p3", "#b-p2", 9.2);
+
+      // C · ice wipes in. "New tools are on the way, from meetings to whiteboards to more capable agents."
+      tl.fromTo("#c-bg", { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.4, ease: "power2.inOut" }, 12.4);
+      land("#c-next", 12.6);
+      land("#c-more", 14.5, 6);
+      land("#c-slot", 15.0);
+      tl.fromTo("#c-track", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 3.0, ease: "none" }, 15.0);
+      tl.fromTo("#c-reel", { y: 0 }, { y: -230, duration: 0.3, ease: "power3.out" }, 15.9);
+      tl.set("#c-reel > div:nth-child(1)", { opacity: 0 }, 16.2);
+      tl.fromTo("#c-reel", { y: -230 }, { y: -460, duration: 0.3, ease: "power3.out", immediateRender: false }, 17.5);
+      tl.set("#c-reel > div:nth-child(2)", { opacity: 0 }, 17.8);
+
+      // D · white wipes up. "So, what will you hand off first?"
+      tl.fromTo("#d-bg", { clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0% 0 0 0)", duration: 0.4, ease: "power2.inOut" }, 20.8);
+      tl.fromTo("#d-l1 span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.12, ease: "power4.out" }, 21.6);
+      land("#d-l2", 22.4);
+      land("#d-l3", 23.0);
+
+      // E · end card: sky wipes in from the left.
+      tl.fromTo("#e-bg", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.inOut" }, 25.4);
+      tl.fromTo("#e-title span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.12, ease: "power4.out" }, 25.9);
+      land("#e-sub", 26.4, 8);
+      tl.fromTo("#e-plate", { y: 420 }, { y: 0, duration: 0.6, ease: "expo.out" }, 26.8);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

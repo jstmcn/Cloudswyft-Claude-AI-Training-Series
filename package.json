@@ -1,0 +1,27 @@
+{
+  "name": "claude-interactive-presentation",
+  "private": true,
+  "version": "0.6.0",
+  "description": "CloudSwyft Claude AI Training Series: 30-minute interactive HTML presentation for Microsoft Teams.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:timing": "node scripts/check-timing.mjs",
+    "export:scripts": "node scripts/export-scripts.mjs"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/open-sans": "^5.0.0",
+    "@fontsource/poppins": "^5.0.0",
+    "lucide-react": "^0.460.0",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "vite": "^5.4.10"
+  }
+}

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #ffffff; }
+      #root { position: relative; width: 100%; height: 100%; font-family: "Poppins", sans-serif; color: #0b1e46; overflow: hidden; }
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .bg { position: absolute; inset: 0; }
+      .big { position: absolute; font-weight: 700; letter-spacing: -0.03em; text-transform: uppercase; white-space: nowrap; line-height: 0.9; }
+      .quiet { position: absolute; font-weight: 700; font-size: 56px; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+      .claude { color: #d97757; }
+      .slot { position: absolute; overflow: hidden; }
+      .reel { position: absolute; left: 0; top: 0; }
+      .reel > div { font-weight: 700; letter-spacing: -0.03em; text-transform: uppercase; white-space: nowrap; }
+
+      /* A · an idea */
+      #a-bulb { position: absolute; left: 1260px; top: 150px; width: 460px; height: 620px; }
+      #a-idea { left: 120px; top: 240px; font-size: 380px; }
+      #a-page { left: 120px; top: 600px; font-size: 130px; color: #0e7bb5; }
+      #a-web { left: 124px; top: 760px; }
+
+      /* B · a Project gathers files */
+      #b-proj { left: 120px; top: 260px; font-size: 230px; }
+      #b-folder { position: absolute; left: 1350px; top: 330px; width: 480px; height: 368px; }
+      .file { position: absolute; left: 1490px; top: 300px; width: 200px; height: 250px; opacity: 0; }
+      #b-word { left: 120px; top: 560px; width: 1050px; height: 160px; }
+      #b-word .reel > div { height: 160px; line-height: 160px; font-size: 130px; color: #0e7bb5; }
+
+      /* C · an Artifact prototype */
+      #c-art { left: 120px; top: 260px; font-size: 170px; }
+      #c-word { left: 120px; top: 500px; width: 860px; height: 160px; }
+      #c-word .reel > div { height: 160px; line-height: 160px; font-size: 130px; }
+      #c-win { position: absolute; left: 1020px; top: 210px; width: 800px; height: 580px; border-radius: 28px; background: #ffffff; overflow: hidden; }
+      #c-bar { position: absolute; left: 0; top: 0; width: 800px; height: 70px; background: #0b1e46; }
+      .dotw { position: absolute; top: 25px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; }
+      .blk { position: absolute; border-radius: 18px; }
+      #c-hero { left: 40px; top: 110px; width: 720px; height: 200px; background: #1aa6ec; }
+      #c-k1 { left: 40px; top: 340px; width: 340px; height: 200px; background: #eaf6fd; border: 10px solid #0b1e46; }
+      #c-k2 { left: 420px; top: 340px; width: 340px; height: 200px; background: #eaf6fd; border: 10px solid #0b1e46; }
+      #c-bubble { position: absolute; left: 1640px; top: 700px; width: 220px; height: 170px; opacity: 0; }
+
+      /* D · Claude Code ships it */
+      #d-claude { left: 120px; top: 260px; font-size: 260px; }
+      #d-code { left: 120px; top: 500px; font-size: 260px; }
+      .cf { position: absolute; width: 300px; height: 360px; border-radius: 22px; background: #ffffff; border: 14px solid #0b1e46; opacity: 0; }
+      .cf span { position: absolute; left: 0; right: 0; top: 110px; text-align: center; font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 90px; color: #0b1e46; }
+      #d-f1 { left: 1240px; top: 230px; } #d-f2 { left: 1330px; top: 280px; } #d-f3 { left: 1420px; top: 330px; }
+      #d-ship { position: absolute; left: 1150px; top: 600px; width: 680px; height: 150px; border-radius: 24px; background: #0e7bb5; color: #ffffff; font-weight: 700; font-size: 72px; letter-spacing: -0.02em; line-height: 150px; text-align: center; text-transform: uppercase; opacity: 0; }
+
+      /* E · end card */
+      #e-title { left: 120px; top: 230px; font-size: 170px; }
+      #e-title span { display: block; }
+      #e-bar { position: absolute; left: 120px; top: 600px; width: 900px; height: 22px; border-radius: 11px; background: #1aa6ec; }
+      #e-sub { position: absolute; left: 124px; top: 650px; font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 52px; white-space: nowrap; }
+      #e-plate { position: absolute; left: 120px; top: 760px; width: 560px; height: 140px; border-radius: 28px; background: #eaf6fd; }
+      #e-plate img { position: absolute; left: 50px; top: 30px; height: 80px; width: auto; }
+    </style>
+  </head>
+  <body>
+    <!-- Doc 4 · From Idea to Working Project. Voice is the clock; see ../SPEC.md. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34" data-width="1920" data-height="1080">
+
+      <div id="sa" class="clip scene" data-start="0" data-duration="6.0" data-track-index="1" style="z-index: 1">
+        <div class="bg" style="background: #ffffff"></div>
+        <svg id="a-bulb" viewBox="0 0 460 620" fill="none" stroke="#0b1e46" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+          <path id="a-glass" d="M230 30 C110 30 40 120 40 220 C40 300 90 350 130 400 C150 425 160 450 160 480 H300 C300 450 310 425 330 400 C370 350 420 300 420 220 C420 120 350 30 230 30 Z" />
+          <line x1="170" y1="530" x2="290" y2="530" /><line x1="190" y1="585" x2="270" y2="585" />
+        </svg>
+        <div class="big" id="a-idea">Idea</div>
+        <div class="big" id="a-page">Landing page</div>
+        <div class="quiet" id="a-web">For a webinar</div>
+      </div>
+
+      <div id="sb" class="clip scene" data-start="5.6" data-duration="6.7" data-track-index="2" style="z-index: 2">
+        <div class="bg" id="b-bg" style="background: #eaf6fd"></div>
+        <svg id="b-folder" viewBox="0 0 600 460" fill="none" stroke="#0b1e46" stroke-width="18" stroke-linejoin="round">
+          <path d="M20 60 H220 L270 110 H580 V440 H20 Z" fill="#ffffff" />
+          <line x1="20" y1="170" x2="580" y2="170" />
+        </svg>
+        <svg class="file" id="b-f1" viewBox="0 0 200 250" fill="#ffffff" stroke="#0b1e46" stroke-width="14" stroke-linejoin="round"><path d="M10 10 H140 L190 60 V240 H10 Z" /></svg>
+        <svg class="file" id="b-f2" viewBox="0 0 200 250" fill="#1aa6ec" stroke="#0b1e46" stroke-width="14" stroke-linejoin="round"><path d="M10 10 H140 L190 60 V240 H10 Z" /></svg>
+        <svg class="file" id="b-f3" viewBox="0 0 200 250" fill="#ffffff" stroke="#0b1e46" stroke-width="14" stroke-linejoin="round"><path d="M10 10 H140 L190 60 V240 H10 Z" /><line x1="50" y1="120" x2="150" y2="120" /><line x1="50" y1="170" x2="130" y2="170" /></svg>
+        <div class="big" id="b-proj">Project</div>
+        <div class="slot" id="b-word" data-layout-allow-overflow><div class="reel" id="b-reel"><div>Brief</div><div>Brand files</div><div>Instructions</div></div></div>
+      </div>
+
+      <div id="sc" class="clip scene" data-start="11.9" data-duration="7.4" data-track-index="1" style="z-index: 3">
+        <div class="bg" id="c-bg" style="background: #1aa6ec"></div>
+        <div class="big" id="c-art">Artifact</div>
+        <div class="slot" id="c-word" data-layout-allow-overflow><div class="reel" id="c-reel"><div>Prototype</div><div>Revise</div><div>Just ask</div></div></div>
+        <div id="c-win">
+          <div id="c-bar"><div class="dotw" style="left: 30px"></div><div class="dotw" style="left: 64px"></div><div class="dotw" style="left: 98px"></div></div>
+          <div class="blk" id="c-hero"></div>
+          <div class="blk" id="c-k1"></div>
+          <div class="blk" id="c-k2"></div>
+        </div>
+        <svg id="c-bubble" viewBox="0 0 220 170" fill="#ffffff" stroke="#0b1e46" stroke-width="14" stroke-linejoin="round"><path d="M14 14 H206 V120 H90 L50 160 V120 H14 Z" /></svg>
+      </div>
+
+      <div id="sd" class="clip scene" data-start="18.9" data-duration="6.9" data-track-index="2" style="z-index: 4">
+        <div class="bg" id="d-bg" style="background: #ffffff"></div>
+        <div class="big claude" id="d-claude">Claude</div>
+        <div class="big" id="d-code">Code</div>
+        <div class="cf" id="d-f1"><span>&lt;/&gt;</span></div>
+        <div class="cf" id="d-f2"><span>{ }</span></div>
+        <div class="cf" id="d-f3"><span>&lt;/&gt;</span></div>
+        <div id="d-ship">Ready to share</div>
+      </div>
+
+      <div id="se" class="clip scene" data-start="25.4" data-duration="8.6" data-track-index="1" style="z-index: 5">
+        <div class="bg" id="e-bg" style="background: #ffffff"></div>
+        <div class="big" id="e-title" data-hold><span>From idea to</span><span>working project</span></div>
+        <div id="e-bar" data-hold></div>
+        <div id="e-sub" data-hold>Part 5 · Advanced Features</div>
+        <div id="e-plate" data-hold data-layout-allow-overflow><img src="assets/cloudswyft-logo-on-light.png" alt="CloudSwyft" /></div>
+      </div>
+
+      <audio id="voice" class="clip" src="assets/doc4.mp3" data-start="0" data-duration="23.68" data-track-index="5" data-volume="1"></audio>
+      <audio id="pop1" class="clip" src="assets/sfx-pop.mp3" data-start="7.21" data-duration="0.3" data-track-index="6" data-volume="0.6"></audio>
+      <audio id="pop2" class="clip" src="assets/sfx-pop.mp3" data-start="8.11" data-duration="0.3" data-track-index="6" data-volume="0.65"></audio>
+      <audio id="pop3" class="clip" src="assets/sfx-pop.mp3" data-start="9.21" data-duration="0.3" data-track-index="6" data-volume="0.7"></audio>
+      <audio id="pop4" class="clip" src="assets/sfx-pop.mp3" data-start="16.31" data-duration="0.3" data-track-index="6" data-volume="0.6"></audio>
+      <audio id="pop5" class="clip" src="assets/sfx-pop.mp3" data-start="22.01" data-duration="0.3" data-track-index="6" data-volume="0.85"></audio>
+      <audio id="wh1" class="clip" src="assets/sfx-whoosh.mp3" data-start="5.05" data-duration="1.2" data-track-index="7" data-volume="0.24" data-fade-out="0.4"></audio>
+      <audio id="wh2" class="clip" src="assets/sfx-whoosh.mp3" data-start="11.35" data-duration="1.2" data-track-index="7" data-volume="0.28" data-fade-out="0.4"></audio>
+      <audio id="wh3" class="clip" src="assets/sfx-whoosh.mp3" data-start="18.35" data-duration="1.2" data-track-index="7" data-volume="0.24" data-fade-out="0.4"></audio>
+      <audio id="wh4" class="clip" src="assets/sfx-whoosh.mp3" data-start="24.85" data-duration="1.4" data-track-index="7" data-volume="0.28" data-fade-out="0.5"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const land = (sel, t, blur = 10) =>
+        tl.fromTo(sel, { opacity: 0, filter: "blur(" + blur + "px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, t);
+      const pop = (sel, t) => {
+        tl.set(sel, { opacity: 1 }, t);
+        tl.fromTo(sel, { scale: 0 }, { scale: 1, duration: 0.45, ease: "elastic.out(1, 0.55)" }, t);
+      };
+      const roll = (sel, from, to, t, first, gone) => {
+        tl.fromTo(sel, { y: from }, { y: to, duration: 0.3, ease: "power3.out", immediateRender: !!first }, t);
+        tl.set(gone, { opacity: 0 }, t + 0.3);
+      };
+
+      // A · the bulb is on screen from frame 0 and lights on "idea".
+      tl.fromTo("#a-glass", { fill: "#ffffff" }, { fill: "#1aa6ec", duration: 0.3, ease: "power2.out" }, 1.1);
+      land("#a-idea", 1.1);
+      land("#a-page", 2.0);
+      land("#a-web", 3.0, 8);
+
+      // B · ice wipes in. "A Project gathers the brief, the brand files and the instructions."
+      tl.fromTo("#b-bg", { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.4, ease: "power2.inOut" }, 5.6);
+      tl.fromTo("#b-folder", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 5.9);
+      land("#b-proj", 6.1);
+      land("#b-word", 7.1);
+      // Each file drops into the folder on its word.
+      [["#b-f1", 7.1], ["#b-f2", 8.0], ["#b-f3", 9.1]].forEach(([sel, t], i) => {
+        tl.set(sel, { opacity: 1 }, t - 0.25);
+        tl.fromTo(sel, { y: -520, rotation: -12 + i * 10 }, { y: 120 - i * 12, rotation: -6 + i * 6, duration: 0.42, ease: "power3.in", immediateRender: false }, t - 0.25);
+      });
+      roll("#b-reel", 0, -160, 7.9, true, "#b-reel > div:nth-child(1)");
+      roll("#b-reel", -160, -320, 9.0, false, "#b-reel > div:nth-child(2)");
+
+      // C · sky wipes down. "An Artifact turns it into a prototype you can see, and revise just by asking."
+      tl.fromTo("#c-bg", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.4, ease: "power2.inOut" }, 11.9);
+      land("#c-art", 12.15);
+      tl.fromTo("#c-win", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" }, 13.4);
+      tl.fromTo(["#c-hero", "#c-k1", "#c-k2"], { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.4, stagger: 0.12, ease: "expo.out" }, 13.6);
+      land("#c-word", 13.6);
+      roll("#c-reel", 0, -160, 15.3, true, "#c-reel > div:nth-child(1)");
+      // ...revise: the layout rebuilds itself (cards swap, hero recolours).
+      tl.to("#c-k1", { x: 380, duration: 0.45, ease: "power3.inOut" }, 15.4);
+      tl.to("#c-k2", { x: -380, duration: 0.45, ease: "power3.inOut" }, 15.4);
+      tl.to("#c-hero", { backgroundColor: "#0b1e46", duration: 0.3, ease: "power2.inOut" }, 15.5);
+      roll("#c-reel", -160, -320, 16.3, false, "#c-reel > div:nth-child(2)");
+      pop("#c-bubble", 16.4);
+
+      // D · white wipes in. "Claude Code turns the prototype into real project files, ready to share."
+      tl.fromTo("#d-bg", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.inOut" }, 18.9);
+      land("#d-claude", 19.16);
+      land("#d-code", 19.45);
+      [["#d-f1", 20.9], ["#d-f2", 21.05], ["#d-f3", 21.2]].forEach(([sel, t]) => {
+        tl.set(sel, { opacity: 1 }, t);
+        tl.fromTo(sel, { y: 80, scale: 0.9 }, { y: 0, scale: 1, duration: 0.45, ease: "expo.out" }, t);
+      });
+      tl.set("#d-ship", { opacity: 1 }, 22.1);
+      tl.fromTo("#d-ship", { scale: 1.4, rotation: -10 }, { scale: 1, rotation: -5, duration: 0.4, ease: "elastic.out(1, 0.6)" }, 22.1);
+
+      // E · end card.
+      tl.fromTo("#e-bg", { clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0% 0 0 0)", duration: 0.4, ease: "power2.inOut" }, 25.4);
+      tl.fromTo("#e-title span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.12, ease: "power4.out" }, 25.9);
+      tl.fromTo("#e-bar", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 26.3);
+      land("#e-sub", 26.5, 8);
+      tl.fromTo("#e-plate", { y: 420 }, { y: 0, duration: 0.6, ease: "expo.out" }, 26.9);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

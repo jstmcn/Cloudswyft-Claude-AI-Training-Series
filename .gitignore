@@ -1,0 +1,25 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Local secrets (never commit)
+.env.local
+.env
+
+# Machine-specific preview config
+.claude/launch.json
+
+# HyperFrames working files (snapshots, history, caches, scratch renders)
+.hyperframes/
+.media/
+.thumbnails/
+renders/
+*.hf-transaction*
+
+# HyperFrames skills this project doesn't use (large, very long paths on Windows)
+.claude/skills/remotion-to-hyperframes/
+.claude/skills/reverse-any-video/
+.claude/skills/figma/
+.claude/skills/style-sampling/
+.claude/skills/slideshow/

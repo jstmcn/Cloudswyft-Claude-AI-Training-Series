@@ -1,0 +1,185 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #1aa6ec;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+      color: #0b1e46;
+    }
+    .s2-field {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-ice { background: #eaf6fd; }
+    #s2-blue { background: #0e7bb5; }
+    #s2-card {
+      position: absolute;
+      left: 200px;
+      top: 300px;
+      width: 1520px;
+      height: 260px;
+      border-radius: 130px;
+      background: #ffffff;
+    }
+    #s2-tail {
+      position: absolute;
+      left: 150px;
+      top: 230px;
+      width: 120px;
+      height: 110px;
+    }
+    .s2-icon {
+      position: absolute;
+      left: 80px;
+      top: 55px;
+      width: 150px;
+      height: 150px;
+    }
+    #s2-slot {
+      position: absolute;
+      left: 290px;
+      top: 0;
+      width: 1200px;
+      height: 260px;
+      overflow: hidden;
+    }
+    #s2-reel {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .s2-word {
+      height: 260px;
+      line-height: 260px;
+      font-size: 184px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .s2-link {
+      position: absolute;
+      left: 290px;
+      height: 26px;
+      border-radius: 13px;
+      background: #0b1e46;
+    }
+    #s2-l1 { top: 640px; width: 1100px; }
+    #s2-l2 { top: 706px; width: 820px; }
+    #s2-l3 { top: 772px; width: 980px; }
+    #s2-check {
+      position: absolute;
+      left: 1580px;
+      top: 230px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: #1aa6ec;
+    }
+    #s2-check svg {
+      position: absolute;
+      left: 40px;
+      top: 40px;
+      width: 140px;
+      height: 140px;
+    }
+    #s2-done {
+      position: absolute;
+      left: 200px;
+      top: 650px;
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+    #s2-done span { display: inline-block; margin-right: 0.25em; }
+    /* hidden until their beat */
+    #s2-i-chat, #s2-i-asst, #s2-tail, #s2-check, #s2-done span { opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div class="s2-field" id="s2-ice"></div>
+    <div class="s2-field" id="s2-blue"></div>
+
+    <div class="s2-link" id="s2-l1"></div>
+    <div class="s2-link" id="s2-l2"></div>
+    <div class="s2-link" id="s2-l3"></div>
+
+    <div id="s2-move">
+      <div id="s2-card">
+        <svg id="s2-tail" viewBox="0 0 120 110" data-layout-ignore><path d="M0 0 H120 L20 110 Z" fill="#ffffff" /></svg>
+        <!-- search: magnifier -->
+        <svg class="s2-icon" id="s2-i-search" viewBox="0 0 150 150" fill="none" stroke="#0b1e46" stroke-width="14" stroke-linecap="round">
+          <circle cx="62" cy="62" r="40" /><line x1="92" y1="92" x2="130" y2="130" />
+        </svg>
+        <!-- chat: bubble -->
+        <svg class="s2-icon" id="s2-i-chat" viewBox="0 0 150 150" fill="none" stroke="#0b1e46" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 30 H130 V100 H62 L34 128 V100 H20 Z" /><line x1="48" y1="64" x2="102" y2="64" />
+        </svg>
+        <!-- assistant: sparkle -->
+        <svg class="s2-icon" id="s2-i-asst" viewBox="0 0 150 150" fill="none" stroke="#0b1e46" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M75 15 L90 60 L135 75 L90 90 L75 135 L60 90 L15 75 L60 60 Z" />
+        </svg>
+        <div id="s2-slot">
+          <div id="s2-reel">
+            <div class="s2-word">Search</div>
+            <div class="s2-word">Chat</div>
+            <div class="s2-word">Assistant</div>
+          </div>
+        </div>
+      </div>
+      <div id="s2-check">
+        <svg viewBox="0 0 140 140" fill="none" stroke="#0b1e46" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="24,74 58,106 118,36" />
+        </svg>
+      </div>
+      <div id="s2-done"><span>Finishes</span><span>the</span><span>work</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Fields: ice wipes in from the right on "chat", blue from the left on "assistants".
+    tl.fromTo("#s2-ice", { clipPath: "inset(0 0 0 100%)" }, { clipPath: "inset(0 0 0 0%)", duration: 0.4, ease: "power2.inOut" }, 2.3);
+    tl.fromTo("#s2-blue", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.inOut" }, 3.82);
+
+    // SEARCH: the bar arrives (morph from a pill dot), the word lands on "search".
+    tl.fromTo("#s2-card", { clipPath: "inset(0px 1260px 0px 0px round 130px)" }, { clipPath: "inset(0px 0px 0px 0px round 0px)", duration: 0.45, ease: "power3.out" }, 0.25);
+    tl.set("#s2-card", { clipPath: "none" }, 0.72); // let the bubble tail hang outside later
+    tl.fromTo("#s2-slot", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.73);
+
+    // ...that list links: three result lines draw on.
+    ["#s2-l1", "#s2-l2", "#s2-l3"].forEach((sel, i) => {
+      tl.fromTo(sel, { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, 1.15 + i * 0.12);
+    });
+    tl.to(["#s2-l1", "#s2-l2", "#s2-l3"], { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 2.25);
+
+    // CHAT: the bar becomes a bubble, the reel rolls.
+    tl.to("#s2-card", { borderRadius: 64, duration: 0.3, ease: "power3.out" }, 2.4);
+    tl.set("#s2-tail", { opacity: 1 }, 2.5);
+    tl.fromTo("#s2-tail", { scale: 0, transformOrigin: "0% 0%" }, { scale: 1, duration: 0.4, ease: "elastic.out(1, 0.6)" }, 2.5);
+    tl.set("#s2-i-search", { opacity: 0 }, 2.5);
+    tl.set("#s2-i-chat", { opacity: 1 }, 2.5);
+    tl.fromTo("#s2-reel", { y: 0 }, { y: -260, duration: 0.28, ease: "power3.out" }, 2.36);
+
+    // ASSISTANT: the bubble squares up into a panel, the reel rolls again.
+    tl.to("#s2-card", { borderRadius: 40, duration: 0.3, ease: "power3.out" }, 3.9);
+    tl.to("#s2-tail", { opacity: 0, duration: 0.12 }, 3.9);
+    tl.set("#s2-i-chat", { opacity: 0 }, 4.0);
+    tl.set("#s2-i-asst", { opacity: 1 }, 4.0);
+    tl.fromTo("#s2-reel", { y: -260 }, { y: -520, duration: 0.28, ease: "power3.out", immediateRender: false }, 3.88);
+
+    // ...that help finish the work: the check pops, the line lands word by word.
+    tl.set("#s2-check", { opacity: 1 }, 5.36);
+    tl.fromTo("#s2-check", { scale: 0 }, { scale: 1, duration: 0.45, ease: "elastic.out(1, 0.55)" }, 5.36);
+    tl.fromTo("#s2-done span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.08, ease: "power4.out" }, 5.6);
+
+    // Exit: everything whips left into the next shot.
+    tl.to("#s2-move", { x: -2300, filter: "blur(16px)", duration: 0.32, ease: "power3.in" }, 8.05);
+
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

@@ -1,0 +1,147 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+      color: #0b1e46;
+    }
+    .s1-hero {
+      position: absolute;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    #s1-everyday {
+      left: 120px;
+      top: 96px;
+      font-size: 96px;
+    }
+    #s1-messages {
+      left: 120px;
+      top: 250px;
+      font-size: 230px;
+    }
+    #s1-files {
+      right: 120px;
+      top: 480px;
+      font-size: 230px;
+      text-align: right;
+    }
+    #s1-notifs {
+      left: 120px;
+      top: 700px;
+      font-size: 168px;
+      color: #0e7bb5;
+    }
+    .s1-badge {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #1aa6ec;
+      color: #0b1e46;
+      font-weight: 700;
+      font-size: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: -0.03em;
+      opacity: 0;
+    }
+    #s1-b1 { left: 1320px; top: 150px; }
+    #s1-b2 { left: 1080px; top: 470px; }
+    #s1-b3 { left: 1700px; top: 120px; }
+    #s1-b4 { left: 1500px; top: 300px; width: 150px; height: 150px; font-size: 50px; }
+    #s1-tiles {
+      position: absolute;
+      inset: 0;
+    }
+    .s1-row {
+      position: absolute;
+      left: -200px;
+      font-weight: 700;
+      font-size: 64px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #0b1e46;
+      opacity: 0;
+    }
+    #s1-grow {
+      position: absolute;
+      left: 1500px;
+      top: 300px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #1aa6ec;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <div id="s1-tiles" data-layout-ignore data-layout-allow-overflow>
+      <div class="s1-row" id="s1-r0" style="top: 20px">MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES</div>
+      <div class="s1-row" id="s1-r1" style="top: 140px">FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES</div>
+      <div class="s1-row" id="s1-r2" style="top: 260px">NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS</div>
+      <div class="s1-row" id="s1-r3" style="top: 380px">MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES</div>
+      <div class="s1-row" id="s1-r4" style="top: 500px">FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES</div>
+      <div class="s1-row" id="s1-r5" style="top: 620px">NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS</div>
+      <div class="s1-row" id="s1-r6" style="top: 740px">MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES</div>
+      <div class="s1-row" id="s1-r7" style="top: 860px">FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES</div>
+      <div class="s1-row" id="s1-r8" style="top: 980px">NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS · MESSAGES · FILES · NOTIFICATIONS</div>
+    </div>
+
+    <div class="s1-hero" id="s1-everyday">Every day</div>
+    <div class="s1-hero" id="s1-messages">Messages</div>
+    <div class="s1-hero" id="s1-files">Files</div>
+    <div class="s1-hero" id="s1-notifs">Notifications</div>
+
+    <div class="s1-badge" id="s1-b1">3</div>
+    <div class="s1-badge" id="s1-b2">12</div>
+    <div class="s1-badge" id="s1-b3">48</div>
+    <div class="s1-badge" id="s1-b4">99+</div>
+
+    <div id="s1-grow" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Frame 0 already reads: "EVERY DAY" is on screen (visible from CSS).
+
+    // Each hero word lands on its spoken word (whole-word blur-in).
+    const land = (sel, t) =>
+      tl.fromTo(sel, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, t);
+    land("#s1-messages", 1.0);
+    land("#s1-files", 1.67);
+    land("#s1-notifs", 2.34);
+
+    // Badges pop in as the count climbs (scale only, opacity flips).
+    [["#s1-b1", 2.8], ["#s1-b2", 3.1], ["#s1-b3", 3.4], ["#s1-b4", 3.7]].forEach(([sel, t]) => {
+      tl.set(sel, { opacity: 1 }, t);
+      tl.fromTo(sel, { scale: 0 }, { scale: 1, duration: 0.45, ease: "elastic.out(1, 0.55)" }, t);
+    });
+
+    // "...keep coming": the words multiply and tile the frame, rows alternating sides.
+    for (let i = 0; i < 9; i++) {
+      const fromX = i % 2 === 0 ? -1400 : 1400;
+      tl.fromTo(`#s1-r${i}`, { x: fromX, opacity: 0.12 }, { x: 0, opacity: 0.12, duration: 0.5, ease: "expo.out", immediateRender: false }, 3.95 + i * 0.07);
+    }
+
+    // Everything clears except the 99+ badge, which grows into the next field.
+    tl.to(["#s1-everyday", "#s1-messages", "#s1-files", "#s1-notifs", "#s1-tiles", "#s1-b1", "#s1-b2", "#s1-b3"], {
+      opacity: 0,
+      filter: "blur(10px)",
+      duration: 0.2,
+      ease: "power2.in",
+    }, 5.55);
+    tl.to("#s1-b4", { opacity: 0, duration: 0.05 }, 5.9);
+    tl.set("#s1-grow", { opacity: 1 }, 5.85);
+    tl.fromTo("#s1-grow", { scale: 1 }, { scale: 26, duration: 0.5, ease: "power3.in" }, 5.88);
+
+    window.__timelines["s1"] = tl;
+  </script>
+</template>

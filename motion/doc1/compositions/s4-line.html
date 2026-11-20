@@ -1,0 +1,104 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+      color: #0b1e46;
+    }
+    .s4-big {
+      position: absolute;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    #s4-slot {
+      position: absolute;
+      left: 120px;
+      top: 170px;
+      width: 1500px;
+      height: 330px;
+      overflow: hidden;
+    }
+    #s4-reel { position: absolute; left: 0; top: 0; }
+    .s4-word { height: 330px; line-height: 330px; font-size: 320px; }
+    .s4-accent { color: #0e7bb5; }
+    #s4-rev { left: 120px; top: 500px; font-size: 262px; line-height: 1; }
+    #s4-sky {
+      position: absolute;
+      inset: 0;
+      background: #1aa6ec;
+    }
+    #s4-title {
+      left: 120px;
+      top: 200px;
+      font-size: 190px;
+      line-height: 0.95;
+    }
+    #s4-title span { display: inline-block; margin-right: 0.22em; }
+    #s4-sub {
+      position: absolute;
+      left: 124px;
+      top: 610px;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 600;
+      font-size: 52px;
+      color: #0b1e46;
+      white-space: nowrap;
+    }
+    #s4-plate {
+      position: absolute;
+      left: 120px;
+      top: 730px;
+      width: 560px;
+      height: 140px;
+      border-radius: 28px;
+      background: #ffffff;
+    }
+    #s4-logo {
+      position: absolute;
+      left: 50px;
+      top: 30px;
+      height: 80px;
+      width: auto;
+    }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1920" data-height="1080">
+    <div id="s4-slot">
+      <div id="s4-reel">
+        <div class="s4-big s4-word" style="position: static">AI</div>
+        <div class="s4-big s4-word s4-accent" style="position: static">Work</div>
+      </div>
+    </div>
+    <div class="s4-big" id="s4-rev">Revolution</div>
+
+    <div id="s4-sky"></div>
+    <div class="s4-big" id="s4-title" data-hold><span>The</span><span>Future</span><br /><span>of</span><span>Work</span></div>
+    <div id="s4-sub">Part 1 · The AI Revolution</div>
+    <div id="s4-plate" data-hold data-layout-allow-overflow><img id="s4-logo" src="assets/cloudswyft-logo-on-light.png" alt="CloudSwyft" /></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // "This is the AI revolution."
+    tl.fromTo("#s4-slot", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 0.84);
+    tl.fromTo("#s4-rev", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power4.out" }, 1.04);
+
+    // "...a work revolution." AI rolls to WORK on the spoken word.
+    tl.fromTo("#s4-reel", { y: 0 }, { y: -330, duration: 0.3, ease: "power3.out" }, 2.42);
+
+    // Clear, then the sky field rises from the bottom (colour flood) into the end card.
+    tl.to(["#s4-slot", "#s4-rev"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, 4.0);
+    tl.fromTo("#s4-sky", { clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0% 0 0 0)", duration: 0.4, ease: "power2.inOut" }, 4.15);
+
+    // End card: title word by word, quiet line, then the logo plate is carried in.
+    tl.fromTo("#s4-title span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.09, ease: "power4.out" }, 4.65);
+    tl.fromTo("#s4-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 5.3);
+    tl.fromTo("#s4-plate", { y: 420 }, { y: 0, duration: 0.6, ease: "expo.out" }, 5.7);
+
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

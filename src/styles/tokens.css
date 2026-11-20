@@ -1,0 +1,39 @@
+/* CloudSwyft brand tokens (taken from the Canva deck), light version.
+   Navy is for text only. Claude coral is only for the word "Claude" in headings. */
+:root {
+  --white: #ffffff;
+  --ice: #eaf6fd;
+  --ice-2: #d9effc;
+  --mist: #f4f8fc;
+  --line: #e1e9f2;
+  --line-2: #d6e2f0;
+
+  --navy: #0b1e46;
+  --slate: #3a4a66;
+  --muted: #5b6a84;
+  --faint: #8a96a8;
+
+  --blue: #0e7bb5;
+  --sky: #1aa6ec;
+  --sky-l: #5cc6f5;
+  --coral: #d97757;
+  --coral-tint: #fae9e3;
+  --good: #1f8a5b;
+
+  --f-display: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'Open Sans', 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', Consolas, ui-monospace, monospace;
+
+  /* Type scale on the 1920x1080 stage (minimum 22px for Teams) */
+  --t-hero: 112px;
+  --t-title: 80px;
+  --t-h2: 48px;
+  --t-body: 32px;
+  --t-small: 26px;
+  --t-label: 22px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 520ms;
+  --radius: 28px;
+  --radius-s: 18px;
+}
