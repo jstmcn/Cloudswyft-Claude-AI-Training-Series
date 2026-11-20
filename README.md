@@ -4,7 +4,7 @@ Interactive HTML presentation for the CloudSwyft Claude AI Training Series:
 a 30-minute session shared over Microsoft Teams, with 7 parts, 5 documentary
 scenes, 7 Educaplay games and presenter controls.
 
-**Live presentation:** https://jstmcn.github.io/claude-interactive-presentation/
+**Live presentation:** https://jstmcn.github.io/Cloudswyft-Claude-AI-Training-Series/
 (published by GitHub Pages; `.github/workflows/deploy-pages.yml` rebuilds it on every push to `main`).
 
 Built with Vite + React. No backend, no API keys, works offline once built
